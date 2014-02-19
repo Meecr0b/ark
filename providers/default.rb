@@ -41,12 +41,21 @@ action :install do
     notifies :run, "execute[unpack #{new_resource.release_file}]"
   end
 
-  remote_file new_resource.release_file do
-    Chef::Log.debug('DEBUG: new_resource.release_file')
-    source new_resource.url
-    checksum new_resource.checksum if new_resource.checksum
-    action :create
-    notifies :run, "execute[unpack #{new_resource.release_file}]"
+  if new_resource.url =~ /^https?:/ 
+    remote_file new_resource.release_file do
+      Chef::Log.debug('DEBUG: new_resource.release_file')
+      source new_resource.url
+      checksum new_resource.checksum if new_resource.checksum
+      action :create
+      notifies :run, "execute[unpack #{new_resource.release_file}]"
+    end
+  else
+    cookbook_file new_resource.release_file do
+      Chef::Log.debug("DEBUG: new_resource.release_file")
+      source new_resource.url
+      action :create
+      notifies :run, "execute[unpack #{new_resource.release_file}]"
+    end
   end
 
   # unpack based on file extension
@@ -112,11 +121,19 @@ action :put do
   end
 
   # download
-  remote_file new_resource.release_file do
-    source new_resource.url
-    checksum new_resource.checksum if new_resource.checksum
-    action :create
-    notifies :run, "execute[unpack #{new_resource.release_file}]"
+  if new_resource.url =~ /^https?:/ 
+    remote_file new_resource.release_file do
+      source new_resource.url
+      checksum new_resource.checksum if new_resource.checksum
+      action :create
+      notifies :run, "execute[unpack #{new_resource.release_file}]"
+    end
+  else
+    cookbook_file new_resource.release_file do
+      source new_resource.url
+      action :create
+      notifies :run, "execute[unpack #{new_resource.release_file}]"
+    end
   end
 
   # unpack based on file extension
@@ -149,12 +166,21 @@ action :dump do
   end
 
   # download
-  remote_file new_resource.release_file do
-    Chef::Log.debug("DEBUG: new_resource.release_file #{new_resource.release_file}")
-    source new_resource.url
-    checksum new_resource.checksum if new_resource.checksum
-    action :create
-    notifies :run, "execute[unpack #{new_resource.release_file}]"
+  if new_resource.url =~ /^https?:/ 
+    remote_file new_resource.release_file do
+      Chef::Log.debug("DEBUG: new_resource.release_file #{new_resource.release_file}")
+      source new_resource.url
+      checksum new_resource.checksum if new_resource.checksum
+      action :create
+      notifies :run, "execute[unpack #{new_resource.release_file}]"
+    end
+  else
+    cookbook_file new_resource.release_file do
+      Chef::Log.debug("DEBUG: new_resource.release_file #{new_resource.release_file}")
+      source new_resource.url
+      action :create
+      notifies :run, "execute[unpack #{new_resource.release_file}]"
+    end
   end
 
   # unpack based on file extension
@@ -187,12 +213,21 @@ action :unzip do
   end
 
   # download
-  remote_file new_resource.release_file do
-    Chef::Log.debug("DEBUG: new_resource.release_file #{new_resource.release_file}")
-    source new_resource.url
-    checksum new_resource.checksum if new_resource.checksum
-    action :create
-    notifies :run, "execute[unpack #{new_resource.release_file}]"
+  if new_resource.url =~ /^https?:/
+    remote_file new_resource.release_file do
+      Chef::Log.debug("DEBUG: new_resource.release_file #{new_resource.release_file}")
+      source new_resource.url
+      checksum new_resource.checksum if new_resource.checksum
+      action :create
+      notifies :run, "execute[unpack #{new_resource.release_file}]"
+    end
+  else
+    cookbook_file new_resource.release_file do
+      Chef::Log.debug("DEBUG: new_resource.release_file #{new_resource.release_file}")
+      source new_resource.url
+      action :create
+      notifies :run, "execute[unpack #{new_resource.release_file}]"
+    end
   end
 
   # unpack based on file extension
@@ -226,11 +261,19 @@ action :cherry_pick do
   end
 
   # download
-  remote_file new_resource.release_file do
-    source new_resource.url
-    checksum new_resource.checksum if new_resource.checksum
-    action :create
-    notifies :run, "execute[cherry_pick #{new_resource.creates} from #{new_resource.release_file}]"
+  if new_resource.url =~ /^https?:/
+    remote_file new_resource.release_file do
+      source new_resource.url
+      checksum new_resource.checksum if new_resource.checksum
+      action :create
+      notifies :run, "execute[cherry_pick #{new_resource.creates} from #{new_resource.release_file}]"
+    end
+  else
+    cookbook_file new_resource.release_file do
+      source new_resource.url
+      action :create
+      notifies :run, "execute[cherry_pick #{new_resource.creates} from #{new_resource.release_file}]"
+    end
   end
 
   _unpack_type = unpack_type
@@ -262,12 +305,21 @@ action :install_with_make do
     notifies :run, "execute[unpack #{new_resource.release_file}]"
   end
 
-  remote_file new_resource.release_file do
-    Chef::Log.debug('DEBUG: new_resource.release_file')
-    source new_resource.url
-    checksum new_resource.checksum if new_resource.checksum
-    action :create
-    notifies :run, "execute[unpack #{new_resource.release_file}]"
+  if new_resource.url =~ /^https?:/
+    remote_file new_resource.release_file do
+      Chef::Log.debug('DEBUG: new_resource.release_file')
+      source new_resource.url
+      checksum new_resource.checksum if new_resource.checksum
+      action :create
+      notifies :run, "execute[unpack #{new_resource.release_file}]"
+    end
+  else
+    cookbook_file new_resource.release_file do
+      Chef::Log.debug('DEBUG: new_resource.release_file')
+      source new_resource.url
+      action :create
+      notifies :run, "execute[unpack #{new_resource.release_file}]"
+    end
   end
 
   # unpack based on file extension
@@ -327,12 +379,21 @@ action :configure do
     notifies :run, "execute[unpack #{new_resource.release_file}]"
   end
 
-  remote_file new_resource.release_file do
-    Chef::Log.debug('DEBUG: new_resource.release_file')
-    source new_resource.url
-    checksum new_resource.checksum if new_resource.checksum
-    action :create
-    notifies :run, "execute[unpack #{new_resource.release_file}]"
+  if new_resource.url =~ /^https?:/
+    remote_file new_resource.release_file do
+      Chef::Log.debug('DEBUG: new_resource.release_file')
+      source new_resource.url
+      checksum new_resource.checksum if new_resource.checksum
+      action :create
+      notifies :run, "execute[unpack #{new_resource.release_file}]"
+    end
+  else
+    cookbook_file new_resource.release_file do
+      Chef::Log.debug('DEBUG: new_resource.release_file')
+      source new_resource.url
+      action :create
+      notifies :run, "execute[unpack #{new_resource.release_file}]"
+    end
   end
 
   # unpack based on file extension
@@ -363,3 +424,4 @@ action :configure do
     action :nothing
   end
 end
+
